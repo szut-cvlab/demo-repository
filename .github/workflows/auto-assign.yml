@@ -12,8 +12,8 @@ jobs:
       pull-requests: write
     steps:
     - name: 'Auto-assign issue'
-      uses: pozil/auto-assign-issue@v1
+      uses: pozil/auto-assign-issue@v1.14.0
       with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           assignees: hougeai
-          numOfAssignee: 1
+          # numOfAssignee 在旧版 @v1 中不是合法输入，且单 assignee 时本就是默认值，故移除
