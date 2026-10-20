@@ -1,0 +1,253 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import MapPlate from '../components/MapPlate.astro';
+import SecHead from '../components/SecHead.astro';
+import { linkify } from '../lib/linkify';
+import { getCollection } from 'astro:content';
+
+const researchEntry = (await getCollection('research'))[0];
+const research = researchEntry?.data.items ?? [];
+const pubEntry = (await getCollection('publications'))[0];
+const selectedPapers =
+  pubEntry?.data.groups.find((g) => g.title === '期刊论文')?.items.slice(0, 3) ??
+  [];
+const grantsEntry = (await getCollection('grants'))[0];
+const selectedGrants = grantsEntry?.data.items.slice(0, 2) ?? [];
+const projectsEntry = (await getCollection('projects'))[0];
+const selectedProjects = projectsEntry?.data.items.slice(0, 2) ?? [];
+const newsEntry = (await getCollection('news'))[0];
+const news = (newsEntry?.data.items ?? [])
+  .sort((a, b) => b.date.valueOf() - a.date.valueOf())
+  .slice(0, 3);
+const peopleEntry = (await getCollection('people'))[0];
+const people = peopleEntry?.data.items.slice(0, 4) ?? [];
+const dirIndex = (i: number) => `R-${String(i + 1).padStart(2, '0')}`;
+---
+
+<BaseLayout title="视觉与低空智能实验室 · 苏州工学院">
+  <!-- 首屏：左文右图版 -->
+  <section
+    class="grid items-center gap-10 py-14 sm:py-20 lg:grid-cols-[1.15fr_1fr] lg:gap-14"
+  >
+    <div>
+      <p class="rise font-mono text-xs tracking-[0.2em] text-mark" style="animation-delay:.05s">
+        RESEARCH GROUP / EST. 2024
+      </p>
+      <h1
+        class="rise mt-4 text-4xl leading-[1.22] font-extrabold sm:text-5xl"
+        style="animation-delay:.12s"
+      >
+        让机器看懂<br />低空的物理世界
+      </h1>
+      <p class="rise mt-5 max-w-[34em] text-base text-fog" style="animation-delay:.19s">
+        我们专注于计算机视觉、低空智能感知与多模态学习的前沿研究，面向无人机与低空巡航平台，构建安全可靠的感知系统。
+      </p>
+      <div class="rise mt-8 flex flex-wrap gap-4" style="animation-delay:.26s">
+        <a
+          href="#research"
+          class="border border-ink bg-ink px-4 py-2.5 font-mono text-sm text-paper transition-colors duration-200 hover:border-mark hover:bg-mark hover:text-white"
+          >研究方向 →</a
+        >
+        <a
+          href="/people/"
+          class="border border-ink bg-panel px-4 py-2.5 font-mono text-sm transition-colors duration-200 hover:border-mark hover:text-mark"
+          >联系我们 →</a
+        >
+      </div>
+    </div>
+
+    <figure class="rise relative bg-panel" style="animation-delay:.2s">
+      <!-- 框瞳四角：与 Logo 同构的取景框，整幅图版即一枚「框瞳」 -->
+      <span class="absolute top-0 left-0 z-10 h-10 w-10">
+        <svg viewBox="0 0 56 56" class="h-full w-full" aria-hidden="true"
+          ><path d="M0 56 L0 0 L56 0 L56 17 L17 17 L17 56 Z" fill="#0F3A3E"></path></svg
+        >
+      </span>
+      <span class="absolute top-0 right-0 z-10 h-10 w-10">
+        <svg viewBox="0 0 56 56" class="h-full w-full" aria-hidden="true"
+          ><path d="M56 56 L56 0 L0 0 L0 17 L39 17 L39 56 Z" fill="#0F3A3E"></path></svg
+        >
+      </span>
+      <span class="absolute right-0 bottom-0 z-10 h-10 w-10">
+        <svg viewBox="0 0 56 56" class="h-full w-full" aria-hidden="true"
+          ><path d="M56 0 L56 56 L0 56 L0 39 L39 39 L39 0 Z" fill="#0F3A3E"></path></svg
+        >
+      </span>
+      <span class="absolute bottom-0 left-0 z-10 h-10 w-10">
+        <svg viewBox="0 0 56 56" class="h-full w-full" aria-hidden="true"
+          ><path d="M0 0 L0 56 L56 56 L56 39 L39 39 L39 0 Z" fill="#0F3A3E"></path></svg
+        >
+      </span>
+      <MapPlate />
+      <span
+        class="absolute top-3 right-12 z-10 border border-mark bg-panel/90 px-1.5 py-0.5 font-mono text-[10px] text-mark"
+        >FIG. 01</span
+      >
+      <figcaption
+        class="flex justify-between border-t border-line px-12 py-2 font-mono text-[10px] tracking-[0.1em] text-fog"
+      >
+        <span>SURVEY PLATE 07 — CAMPUS SOUTH</span>
+        <span>SCALE 1:2000</span>
+      </figcaption>
+    </figure>
+  </section>
+
+  <!-- 研究方向：图例式条目 -->
+  <section id="research" class="scroll-mt-32 sm:scroll-mt-24 pb-4" data-reveal>
+    <SecHead no="01" title="研究方向" en="RESEARCH" />
+    <a href="/research/" class="float-right -mt-16 font-mono text-sm text-mark hover:underline">全部 →</a>
+    <ul>
+      {
+        research.map((r, i) => (
+          <li class="grid grid-cols-[52px_16px_1fr] items-baseline gap-5 border-b border-line py-5 transition-colors duration-200 hover:bg-panel sm:grid-cols-[64px_20px_200px_1fr]">
+            <span class="font-mono text-[13px] text-fog">{dirIndex(i)}</span>
+            <span
+              class:list={[
+                'mt-[7px] h-3 w-3 self-start border-[1.5px] border-ink bg-panel',
+                i % 2 === 1 && 'border-mark bg-mark',
+              ]}
+            />
+            <h3 class="text-lg font-bold">{r.title}</h3>
+            <p class="col-start-3 text-[15px] text-fog sm:col-start-4">{r.desc}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <!-- 学术成果 -->
+  <section id="publications" class="scroll-mt-32 sm:scroll-mt-24 py-14" data-reveal>
+    <SecHead no="02" title="学术成果" en="PUBLICATIONS" />
+    <ul>
+      {
+        selectedPapers.map((c, i) => (
+          <li class="border-b border-line py-4 text-sm leading-relaxed transition-colors duration-200 hover:bg-panel">
+            <span class="mr-3 font-mono text-xs text-fog">[{i + 1}]</span>
+            <span class="text-ink/85">{c}</span>
+          </li>
+        ))
+      }
+    </ul>
+    <a href="/publications/" class="mt-5 inline-block font-mono text-sm text-mark hover:underline"
+      >全部成果 →</a
+    >
+  </section>
+
+  <!-- 科研项目 -->
+  <section id="grants" class="scroll-mt-32 sm:scroll-mt-24 pb-14" data-reveal>
+    <SecHead no="03" title="科研项目" en="GRANTS" />
+    <ul>
+      {
+        selectedGrants.map((g) => (
+          <li class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-line py-4 transition-colors duration-200 hover:bg-panel">
+            <span class="text-[15px] font-bold">{g.title}</span>
+            <span class="text-sm text-fog">
+              {g.category} · {g.period}
+            </span>
+            {g.status && (
+              <span
+                class:list={[
+                  'ml-auto px-2 py-1 font-mono text-[11px] tracking-wide',
+                  g.status === '在研'
+                    ? 'border border-mark text-mark'
+                    : 'border border-line text-fog',
+                ]}
+              >
+                {g.status}
+              </span>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+    <a href="/grants/" class="mt-5 inline-block font-mono text-sm text-mark hover:underline"
+      >全部项目 →</a
+    >
+  </section>
+
+  <!-- 开源项目 -->
+  <section id="projects" class="scroll-mt-32 sm:scroll-mt-24 pb-14" data-reveal>
+    <SecHead no="04" title="开源项目" en="OPEN SOURCE" />
+    <ul>
+      {
+        selectedProjects.map((pr) => (
+          <li class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-line py-4 transition-colors duration-200 hover:bg-panel">
+            <span class="text-[15px] font-bold">
+              {pr.url && pr.url !== '#' ? (
+                <a href={pr.url} class="hover:text-mark hover:underline">
+                  {pr.name}
+                </a>
+              ) : (
+                pr.name
+              )}
+            </span>
+            {pr.desc && (
+              <span class="text-sm text-fog" set:html={linkify(pr.desc)} />
+            )}
+            {pr.language && (
+              <span class="ml-auto border border-ink px-2 py-0.5 font-mono text-[11px] tracking-wide text-ink">
+                {pr.language}
+              </span>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+    <a href="/projects/" class="mt-5 inline-block font-mono text-sm text-mark hover:underline"
+      >全部项目 →</a
+    >
+  </section>
+
+  <!-- 团队 -->
+  <section id="people" class="scroll-mt-32 sm:scroll-mt-24 pb-14" data-reveal>
+    <SecHead no="05" title="团队成员" en="PEOPLE" />
+    <ul>
+      {
+        people.map((person) => (
+          <li class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-line py-4 transition-colors duration-200 hover:bg-panel">
+            <span class="text-lg font-bold tracking-wide">{person.name}</span>
+            <span class="text-sm text-fog">{person.role}</span>
+            <span class="ml-auto font-mono text-xs text-fog">
+              {person.url ? (
+                <a
+                  href={person.url}
+                  target="_blank"
+                  rel="noopener"
+                  class="text-mark hover:underline"
+                >
+                  个人主页 ↗
+                </a>
+              ) : (
+                person.email
+              )}
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+    <a href="/people/" class="mt-5 inline-block font-mono text-sm text-mark hover:underline"
+      >全部成员 →</a
+    >
+  </section>
+
+  <!-- 最新动态 -->
+  <section id="news" class="scroll-mt-32 sm:scroll-mt-24 pb-16" data-reveal>
+    <SecHead no="06" title="最新动态" en="NEWS" />
+    <ul>
+      {
+        news.map((n) => (
+          <li class="grid gap-1 border-b border-line py-4 sm:grid-cols-[110px_1fr] sm:gap-5">
+            <time class="pt-1 font-mono text-xs text-fog">
+              {n.date.toLocaleDateString('zh-CN')}
+            </time>
+            <div>
+              <p class="font-bold">{n.title}</p>
+              {n.desc && <p class="mt-1 text-[15px] text-fog">{n.desc}</p>}
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+    <a href="/news/" class="mt-5 inline-block font-mono text-sm text-mark hover:underline">全部动态 →</a>
+  </section>
+</BaseLayout>

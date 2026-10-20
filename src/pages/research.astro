@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SecHead from '../components/SecHead.astro';
+import { getCollection } from 'astro:content';
+
+const entry = (await getCollection('research'))[0];
+const research = entry?.data.items ?? [];
+---
+
+<BaseLayout title="研究方向 · 视觉与低空智能实验室">
+  <section class="py-12" data-reveal>
+    <SecHead no="01" title="研究方向" en="RESEARCH" />
+    <p class="-mt-2 mb-8 max-w-[36em] text-[15px] text-fog">
+      实验室聚焦的四个研究方向，从基础视觉到低空智能系统。
+    </p>
+    <ul>
+      {
+        research.map((r, i) => (
+          <li class="grid gap-2 border-b border-line py-6 transition-colors duration-200 hover:bg-panel sm:grid-cols-[64px_200px_1fr] sm:gap-6">
+            <span class="pt-1 font-mono text-xs text-fog">
+              R-{String(i + 1).padStart(2, '0')}
+            </span>
+            <h3 class="text-lg font-bold">{r.title}</h3>
+            <p class="text-[15px] text-fog">{r.desc}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

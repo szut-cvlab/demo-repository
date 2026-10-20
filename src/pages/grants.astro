@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SecHead from '../components/SecHead.astro';
+import { getCollection } from 'astro:content';
+
+const entry = (await getCollection('grants'))[0];
+const items = entry?.data.items ?? [];
+---
+
+<BaseLayout title="科研项目 · 视觉与低空智能实验室">
+  <section class="py-12" data-reveal>
+    <SecHead no="03" title="科研项目" en="GRANTS" />
+    <p class="-mt-2 mb-8 max-w-[36em] text-[15px] text-fog">
+      实验室主持与参与的科研课题。
+    </p>
+    <ul>
+      {
+        items.map((g, i) => (
+          <li class="grid gap-3 border-b border-line py-6 sm:grid-cols-[44px_1fr_auto] sm:gap-5">
+            <span class="pt-1 font-mono text-xs text-fog">
+              G-{String(items.length - i).padStart(2, '0')}
+            </span>
+            <div>
+              <h3 class="text-xl font-extrabold leading-snug">{g.title}</h3>
+              <p class="mt-1.5 text-[13.5px] text-ink/70">
+                {g.source}
+                {g.category && ` · ${g.category}`}
+                {g.code && ` · ${g.code}`}
+              </p>
+              <p class="mt-1 font-mono text-xs text-fog">
+                {g.period}
+                {g.funding && ` · ${g.funding}`}
+                {g.role && ` · ${g.role}`}
+              </p>
+            </div>
+            <div class="flex items-start sm:pt-1">
+              {g.status && (
+                <span
+                  class:list={[
+                    'px-2 py-1 font-mono text-[11px] tracking-wide',
+                    g.status === '在研'
+                      ? 'border border-mark text-mark'
+                      : 'border border-line text-fog',
+                  ]}
+                >
+                  {g.status}
+                </span>
+              )}
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

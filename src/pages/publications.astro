@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SecHead from '../components/SecHead.astro';
+import { getCollection } from 'astro:content';
+
+const entry = (await getCollection('publications'))[0];
+const groups = entry?.data.groups ?? [];
+const enNames: Record<string, string> = {
+  期刊论文: 'JOURNAL',
+  会议论文: 'CONFERENCE',
+  发明专利: 'PATENTS',
+  学术奖励: 'AWARDS',
+};
+---
+
+<BaseLayout title="学术成果 · 视觉与低空智能实验室">
+  <section class="py-12" data-reveal>
+    <SecHead no="02" title="学术成果" en="PUBLICATIONS" />
+    <p class="-mt-2 mb-8 max-w-[36em] text-[15px] text-fog">
+      期刊论文、会议论文、发明专利与学术奖励。
+    </p>
+
+    {
+      groups.map((g, gi) => (
+        <div class={gi > 0 ? 'mt-12' : ''}>
+          <div class="flex items-baseline gap-3 border-b border-ink pb-3">
+            <span class="font-mono text-xs tracking-[0.1em] text-mark">
+              {String(gi + 1).padStart(2, '0')} /
+            </span>
+            <h2 class="text-lg font-extrabold tracking-wide">{g.title}</h2>
+            <span class="ml-auto font-mono text-[11px] tracking-[0.18em] text-fog">
+              {enNames[g.title] ?? ''}
+            </span>
+          </div>
+          <ol class="mt-4">
+            {g.items.map((item, i) => (
+              <li class="grid grid-cols-[40px_1fr] gap-4 border-b border-line py-4 text-[15px] leading-relaxed transition-colors duration-200 hover:bg-panel">
+                <span class="pt-0.5 font-mono text-xs text-fog">[{i + 1}]</span>
+                <span class="text-ink/85">{item}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      ))
+    }
+  </section>
+</BaseLayout>

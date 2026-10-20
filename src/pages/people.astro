@@ -1,0 +1,74 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SecHead from '../components/SecHead.astro';
+import { getCollection } from 'astro:content';
+
+const entry = (await getCollection('people'))[0];
+const people = entry?.data.items ?? [];
+---
+
+<BaseLayout title="团队成员 · 视觉与低空智能实验室">
+  <section class="py-12" data-reveal>
+    <SecHead no="05" title="团队成员" en="PEOPLE" />
+    <p class="-mt-2 mb-8 max-w-[36em] text-[15px] text-fog">
+      实验室负责人与在读研究生，按加入顺序排列。
+    </p>
+    <ul>
+      {
+        people.map((person, i) => (
+          <li class="grid gap-1 border-b border-line py-5 transition-colors duration-200 hover:bg-panel sm:grid-cols-[1fr_auto] sm:items-baseline sm:gap-6">
+            <div>
+              <div class="flex items-baseline gap-5">
+                <span class="font-mono text-xs text-fog">
+                  M-{String(people.length - i).padStart(2, '0')}
+                </span>
+                <h3 class="text-xl font-bold tracking-wide">{person.name}</h3>
+                <span class="text-sm text-fog">{person.role}</span>
+              </div>
+              {(person.bio || person.email) && (
+                <p class="mt-1.5 pl-12 text-[15px] leading-relaxed text-fog">
+                  {person.bio}
+                  {person.email && (
+                    <span class="ml-3 font-mono text-xs">
+                      Email:{' '}
+                      <a
+                        href={`mailto:${person.email}`}
+                        class="hover:text-mark"
+                      >
+                        {person.email}
+                      </a>
+                    </span>
+                  )}
+                </p>
+              )}
+            </div>
+            <div
+              class="flex flex-wrap gap-x-5 gap-y-1 pl-12 font-mono text-xs sm:pl-0"
+            >
+              {person.url && (
+                <a
+                  href={person.url}
+                  target="_blank"
+                  rel="noopener"
+                  class="text-mark hover:underline"
+                >
+                  HomePage ↗
+                </a>
+              )}
+              {person.notes && (
+                <a
+                  href={person.notes}
+                  target="_blank"
+                  rel="noopener"
+                  class="text-mark hover:underline"
+                >
+                  PaperNotes ↗
+                </a>
+              )}
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>
