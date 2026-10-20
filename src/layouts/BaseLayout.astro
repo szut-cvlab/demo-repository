@@ -25,6 +25,15 @@ const hrefOf = (item: (typeof nav)[number]) =>
   isHome && item.hash ? item.hash : item.page;
 const isActive = (item: (typeof nav)[number]) =>
   item.page === '/' ? isHome : !isHome && path.startsWith(item.page);
+
+// 自媒体账号：href 为 '#' 的是占位，拿到链接后替换即可
+const social = [
+  { label: '公众号', href: '#', qr: true },
+  { label: '知乎', href: '#' },
+  { label: 'B站', href: '#' },
+  { label: '小红书', href: '#' },
+  { label: 'GitHub', href: 'https://github.com/szut-cvlab' },
+];
 ---
 
 <!doctype html>
@@ -108,15 +117,41 @@ const isActive = (item: (typeof nav)[number]) =>
 
     <footer class="mt-6 border-t border-ink">
       <div
-        class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-5 py-6 pb-14 text-[13px] text-fog sm:px-8"
+        class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-5 gap-y-3 px-5 py-6 pb-14 font-mono text-xs text-fog sm:px-8"
       >
-        <span>视觉与低空智能实验室 · 苏州工学院</span>
-        <span
-          class="flex items-center gap-2.5 font-mono text-[10px] tracking-[0.1em]"
-        >
-          <i class="inline-block h-[5px] w-28 border border-ink border-t-0"></i>
-          0 —— 100 M
-        </span>
+        <div class="flex flex-wrap items-center gap-x-5 gap-y-3">
+          <span class="tracking-[0.15em]">FOLLOW US</span>
+          {
+            social.map((s) =>
+              s.qr ? (
+                <span class="group relative">
+                  <span class="cursor-default transition-colors duration-200 group-hover:text-mark"
+                    >{s.label} ↗</span
+                  >
+                  <!-- 悬停显示公众号二维码 -->
+                  <span class="pointer-events-none absolute bottom-full left-1/2 z-10 mb-2 hidden w-44 -translate-x-1/2 border border-ink bg-paper p-2 shadow-lg group-hover:block">
+                    <img
+                      src="/qrcode_for_gzh_cv.jpg"
+                      alt="微信公众号二维码"
+                      class="block h-auto w-full"
+                    />
+                    <span class="mt-1 block whitespace-nowrap text-center text-[10px] tracking-[0.1em]"
+                      >扫码关注</span
+                    >
+                  </span>
+                </span>
+              ) : (
+                <a
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener"
+                  class="transition-colors duration-200 hover:text-mark"
+                  >{s.label} ↗</a
+                >
+              ),
+            )
+          }
+        </div>
         <span>© {new Date().getFullYear()} SZUT-CVLab</span>
       </div>
     </footer>
