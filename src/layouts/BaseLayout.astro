@@ -1,0 +1,178 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+const {
+  title,
+  description = '苏州工学院 · 视觉与低空智能实验室：计算机视觉、低空智能感知、多模态学习与三维场景理解。',
+} = Astro.props;
+
+// 首页时导航滚动到本页对应板块；其他页面则跳转到对应独立页面
+const nav = [
+  { page: '/', hash: '', label: '首页' },
+  { page: '/publications/', hash: '#publications', label: '学术成果' },
+  { page: '/grants/', hash: '#grants', label: '科研项目' },
+  { page: '/projects/', hash: '#projects', label: '开源项目' },
+  { page: '/people/', hash: '#people', label: '团队' },
+  { page: '/news/', hash: '#news', label: '动态' },
+];
+const path = Astro.url.pathname;
+const isHome = path === '/';
+const hrefOf = (item: (typeof nav)[number]) =>
+  isHome && item.hash ? item.hash : item.page;
+const isActive = (item: (typeof nav)[number]) =>
+  item.page === '/' ? isHome : !isHome && path.startsWith(item.page);
+
+// 自媒体账号：href 为 '#' 的是占位，拿到链接后替换即可
+const social = [
+  { label: '公众号', href: '#', qr: true },
+  { label: '知乎', href: '#' },
+  { label: 'B站', href: '#' },
+  { label: '小红书', href: '#' },
+  { label: 'GitHub', href: 'https://github.com/szut-cvlab' },
+];
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#F4F2EA" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+  </head>
+  <body class="flex min-h-screen flex-col bg-paper text-ink antialiased">
+    <!-- 坐标条：方向 02 的身份元素 -->
+    <div class="border-b border-ink">
+      <div
+        class="mx-auto flex max-w-6xl justify-between gap-4 px-5 py-2.5 font-mono text-[11px] tracking-[0.08em] text-fog sm:px-8"
+      >
+        <span>N31°18′ E120°37′ · SUZHOU</span>
+        <span class="hidden sm:inline">EST. <b class="font-semibold text-mark">2024</b> · VISION &amp; LOW-ALTITUDE INTELLIGENCE LAB</span>
+      </div>
+    </div>
+
+    <!-- 吸顶导航：滚到任意板块仍可点击导航 -->
+    <header class="sticky top-0 z-50 border-b border-ink bg-paper">
+      <div
+        class="flex flex-col gap-1 py-4 mx-auto w-full max-w-6xl px-5 sm:flex-row sm:items-center sm:justify-between sm:px-8"
+      >
+        <a href="/" class="flex items-center gap-2.5 self-start sm:self-auto">
+          <!-- 品牌符号：框瞳（检测框四角 + 瞳孔） -->
+          <svg
+            class="h-9 w-9 shrink-0"
+            viewBox="0 0 256 256"
+            role="img"
+            aria-label="SZUT-CVLab"
+          >
+            <g fill="#0F3A3E">
+              <path d="M30 96 L30 30 L96 30 L96 50 L50 50 L50 96 Z"></path>
+              <path d="M226 96 L226 30 L160 30 L160 50 L206 50 L206 96 Z"></path>
+              <path d="M226 160 L226 226 L160 226 L160 206 L206 206 L206 160 Z"></path>
+              <path d="M30 160 L30 226 L96 226 L96 206 L50 206 L50 160 Z"></path>
+            </g>
+            <circle cx="128" cy="128" r="42" fill="#D96B2B"></circle>
+          </svg>
+          <span class="font-extrabold leading-tight">
+            <span class="text-[17px] tracking-wide">视觉与低空智能实验室</span>
+            <small
+              class="hidden font-mono text-[10px] font-normal tracking-[0.18em] text-fog sm:block"
+              >SZUT · VISION &amp; LOW-ALTITUDE INTELLIGENCE LAB</small
+            >
+          </span>
+        </a>
+        <nav
+          class="-mx-5 flex gap-1 overflow-x-auto px-5 text-sm [-ms-overflow-style:none] [scrollbar-width:none] sm:mx-0 sm:gap-3 sm:px-0 [&::-webkit-scrollbar]:hidden"
+        >
+          {
+            nav.map((item) => (
+              <a
+                href={hrefOf(item)}
+                class:list={[
+                  'shrink-0 whitespace-nowrap px-2 py-1.5 transition-colors duration-200 hover:text-mark sm:px-3',
+                  isActive(item)
+                    ? 'border-b-2 border-mark font-semibold'
+                    : 'border-b-2 border-transparent',
+                ]}
+              >
+                {item.label}
+              </a>
+            ))
+          }
+        </nav>
+      </div>
+      </div>
+    </header>
+
+    <main class="mx-auto w-full max-w-6xl flex-1 px-5 sm:px-8">
+      <slot />
+    </main>
+
+    <footer class="mt-6 border-t border-ink">
+      <div
+        class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-5 gap-y-3 px-5 py-6 pb-14 font-mono text-xs text-fog sm:px-8"
+      >
+        <div class="flex flex-wrap items-center gap-x-5 gap-y-3">
+          <span class="tracking-[0.15em]">FOLLOW US</span>
+          {
+            social.map((s) =>
+              s.qr ? (
+                <span class="group relative">
+                  <span class="cursor-default transition-colors duration-200 group-hover:text-mark"
+                    >{s.label} ↗</span
+                  >
+                  <!-- 悬停显示公众号二维码 -->
+                  <span class="pointer-events-none absolute bottom-full left-1/2 z-10 mb-2 hidden w-44 -translate-x-1/2 border border-ink bg-paper p-2 shadow-lg group-hover:block">
+                    <img
+                      src="/qrcode_for_gzh_cv.jpg"
+                      alt="微信公众号二维码"
+                      class="block h-auto w-full"
+                    />
+                    <span class="mt-1 block whitespace-nowrap text-center text-[10px] tracking-[0.1em]"
+                      >扫码关注</span
+                    >
+                  </span>
+                </span>
+              ) : (
+                <a
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener"
+                  class="transition-colors duration-200 hover:text-mark"
+                  >{s.label} ↗</a
+                >
+              ),
+            )
+          }
+        </div>
+        <span>© {new Date().getFullYear()} SZUT-CVLab</span>
+      </div>
+    </footer>
+
+    <!-- 动效 ②：区块滚动出场（渐进增强） -->
+    <script>
+      document.documentElement.classList.add('js');
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              e.target.classList.add('in');
+              io.unobserve(e.target);
+            }
+          }
+        },
+        { threshold: 0.1 },
+      );
+      document
+        .querySelectorAll('[data-reveal]')
+        .forEach((el) => io.observe(el));
+    </script>
+  </body>
+</html>

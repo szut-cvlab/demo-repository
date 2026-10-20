@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <title>SZUT-CVLab 框瞳（反白版，深色底使用）</title>
+  <g fill="#FFFFFF">
+    <path d="M30 96 L30 30 L96 30 L96 50 L50 50 L50 96 Z"/>
+    <path d="M226 96 L226 30 L160 30 L160 50 L206 50 L206 96 Z"/>
+    <path d="M226 160 L226 226 L160 226 L160 206 L206 206 L206 160 Z"/>
+    <path d="M30 160 L30 226 L96 226 L96 206 L50 206 L50 160 Z"/>
+  </g>
+  <circle cx="128" cy="128" r="42" fill="#D96B2B"/>
+</svg>

@@ -1,0 +1,43 @@
+<svg viewBox="0 0 420 320" role="img" aria-label="低空监测图版示意" class="block h-auto w-full">
+  <defs>
+    <pattern id="cvl-grid" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M30 0H0V30" fill="none" stroke="#14494D" stroke-opacity=".12" stroke-width="1"></path>
+    </pattern>
+  </defs>
+  <rect width="420" height="320" fill="url(#cvl-grid)"></rect>
+  <!-- 等高线：低空的物理世界 -->
+  <g fill="none" stroke="#14494D" stroke-opacity=".45" stroke-width="1.2">
+    <path d="M30 250 C 90 200, 140 235, 200 190 S 320 120, 395 150"></path>
+    <path d="M45 268 C 105 220, 155 255, 215 208 S 330 140, 400 168"></path>
+    <path d="M62 288 C 120 242, 172 272, 232 226 S 340 160, 405 188"></path>
+    <path d="M20 230 C 80 180, 128 214, 188 170 S 310 102, 388 130"></path>
+  </g>
+  <!-- 航线：低空平台正沿任务航线飞行，WP-07 为当前航点 -->
+  <path
+    d="M36 296 C 150 278, 250 258, 336 210"
+    fill="none"
+    stroke="#0F3A3E"
+    stroke-opacity=".35"
+    stroke-width="1.5"
+    stroke-dasharray="6 6"></path>
+  <!-- 检测框：与 Logo「框瞳」同构的取景角，中心瞳孔 = 框住即看见 -->
+  <g fill="none" stroke="#D96B2B" stroke-width="4">
+    <path d="M112 64 V52 H124"></path>
+    <path d="M160 52 H172 V64"></path>
+    <path d="M172 104 V116 H160"></path>
+    <path d="M124 116 H112 V104"></path>
+    <path d="M232 132 V120 H244"></path>
+    <path d="M280 120 H292 V132"></path>
+    <path d="M292 164 V176 H280"></path>
+    <path d="M244 176 H232 V164"></path>
+  </g>
+  <circle cx="142" cy="84" r="3.5" fill="#D96B2B"></circle>
+  <circle cx="262" cy="148" r="3.5" fill="#D96B2B"></circle>
+  <circle cx="336" cy="210" r="4" fill="#D96B2B"></circle>
+  <circle cx="336" cy="210" r="8" fill="none" stroke="#D96B2B" stroke-width="1.5" stroke-opacity=".6"></circle>
+  <g font-family="JetBrains Mono, ui-monospace, monospace" font-size="10" fill="#D96B2B">
+    <text x="112" y="46">UAV 0.97</text>
+  </g>
+  <text x="232" y="114" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10" fill="#0F3A3E" fill-opacity=".65">BLDG 0.93</text>
+  <text x="312" y="200" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10" fill="#0F3A3E">WP-07</text>
+</svg>

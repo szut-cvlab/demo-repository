@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 256">
+  <title>SZUT-CVLab 横排组合</title>
+  <g transform="translate(6,10) scale(0.922)">
+    <g fill="#0F3A3E">
+      <path d="M30 96 L30 30 L96 30 L96 50 L50 50 L50 96 Z"/>
+      <path d="M226 96 L226 30 L160 30 L160 50 L206 50 L206 96 Z"/>
+      <path d="M226 160 L226 226 L160 226 L160 206 L206 206 L206 160 Z"/>
+      <path d="M30 160 L30 226 L96 226 L96 206 L50 206 L50 160 Z"/>
+    </g>
+    <circle cx="128" cy="128" r="42" fill="#D96B2B"/>
+  </g>
+  <!-- 探索/网站阶段使用 live text（PingFang SC / 系统黑体，字体授权允许界面使用）；
+       正式印刷物料前请将文字转为轮廓 -->
+  <text x="252" y="126" font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-size="74" font-weight="800" letter-spacing="4" fill="#0F3A3E">SZUT·CVLab</text>
+  <text x="254" y="186" font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-size="33" letter-spacing="10" fill="#5D6B63">视觉与低空智能实验室</text>
+</svg>

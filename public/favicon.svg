@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256"><title>SZUT-CVLab logo</title><g transform="translate(-21.76 -21.76) scale(1.17)">
+  
+  <!-- 小尺寸专用：加粗角线、放大瞳孔，≤32px 使用 -->
+  <g fill="#0F3A3E">
+    <path d="M23 113 L23 23 L113 23 L113 49 L49 49 L49 113 Z"/>
+    <path d="M233 113 L233 23 L143 23 L143 49 L207 49 L207 113 Z"/>
+    <path d="M233 143 L233 233 L143 233 L143 207 L207 207 L207 143 Z"/>
+    <path d="M23 143 L23 233 L113 233 L113 207 L49 207 L49 143 Z"/>
+  </g>
+  <circle cx="128" cy="128" r="44" fill="#D96B2B"/>
+</g></svg>

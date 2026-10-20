@@ -1,0 +1,13 @@
+---
+interface Props {
+  no: string;
+  title: string;
+  en: string;
+}
+const { no, title, en } = Astro.props;
+---
+<div class="flex items-baseline gap-3.5 border-t border-ink pt-4 pb-7">
+  <span class="font-mono text-xs tracking-[0.1em] text-mark">{no} /</span>
+  <h2 class="text-2xl font-extrabold tracking-wide">{title}</h2>
+  <span class="ml-auto font-mono text-[11px] tracking-[0.18em] text-fog">{en}</span>
+</div>

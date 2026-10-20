@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SecHead from '../components/SecHead.astro';
+import { getCollection } from 'astro:content';
+
+const entry = (await getCollection('news'))[0];
+const news = (entry?.data.items ?? []).sort(
+  (a, b) => b.date.valueOf() - a.date.valueOf(),
+);
+---
+
+<BaseLayout title="实验室动态 · 视觉与低空智能实验室">
+  <section class="py-12" data-reveal>
+    <SecHead no="06" title="实验室动态" en="NEWS" />
+    <p class="-mt-2 mb-8 max-w-[36em] text-[15px] text-fog">
+      招生、获奖、论文录用与学术活动，按时间倒序。
+    </p>
+    <ul>
+      {
+        news.map((n) => (
+          <li class="grid gap-1 border-b border-line py-5 sm:grid-cols-[110px_1fr] sm:gap-5">
+            <time class="pt-1 font-mono text-xs text-fog">
+              {n.date.toLocaleDateString('zh-CN')}
+            </time>
+            <div>
+              <h3 class="text-lg font-bold">{n.title}</h3>
+              {n.desc && <p class="mt-1.5 text-[15px] text-fog">{n.desc}</p>}
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>
